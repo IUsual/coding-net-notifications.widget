@@ -3,10 +3,6 @@
 # developer tools in chrome, or Developer in FireFox.
 sid = "YOUR-SID"
 
-# An integer specifying how command is executed, or 
-# in human language just like '2 days', '5s' and etc.
-refreshFrequency: "3 sec"
-
 # Window properties, that contains the width of window,
 # and the right and top offset from the edge of desktop.
 # Also your can edit `style` variable below if more
@@ -17,10 +13,16 @@ widget =
 	top: "10px"
 
 # Data api of Coding.net
+# Don't touch below this line unless you know what's going on
 apis = 
 	host: "https://coding.net"
 	user: "/api/current_user"
 	notifications: "/api/notification/unread-list"
+	homePage: "/u/"
+
+# An integer specifying how command is executed, or 
+# in human language just like '2 days', '5s' and etc.
+refreshFrequency: "1 min"
 
 command: """
 	echo "{"
@@ -33,6 +35,8 @@ command: """
 	echo "}"
 """
 
+apis: apis
+
 render: (output) ->
 	json = JSON.parse(output)
 	result = 
@@ -43,7 +47,9 @@ render: (output) ->
 	<div>
 	    <section class="header section">
 	    	<span class="name">#{result.name}</span>
-	    	<span class="gk">(&nbsp;#{result.global_key}&nbsp;)</span>
+	    	<span class="gk">
+	    		(&nbsp;<a href="#{@apis.host}#{@apis.homePage}#{result.global_key}">#{result.global_key}</a>&nbsp;)
+	    	</span>
 	    </section>
 	    <section class="notifications">
 	    </section>
@@ -87,6 +93,9 @@ style: """
   border-radius:4px
 
   word-break: break-all
+
+  a[href]
+  	color: white
 
   section:not(:last-child)
     padding-bottom: 5px
