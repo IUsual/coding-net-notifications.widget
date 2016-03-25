@@ -36,6 +36,7 @@ command: """
 """
 
 apis: apis
+sid: sid
 
 render: (output) ->
 	json = JSON.parse(output)
@@ -60,7 +61,7 @@ renderNotificationItem: (item) ->
 	date = new Date item.created_at
 	time = (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() 
 	"""
-		<div class="notification-item item">
+		<div class="notification-item item" data-url="#{@apis.host}#{@apis.unread}#{item.id}">
 			<p class="content">#{item.content}</p>
 			<p class="time">#{time}</p>
 		</div>
@@ -69,12 +70,22 @@ renderNotificationItem: (item) ->
 update: (output, domEle) -> 
 	json = JSON.parse output
 
-	notificationsArea = $ domEle
-		.find ".notifications"
-	notificationsArea.empty()
+	notificationsArea = $(domEle).find ".notifications"
 
+	notificationsArea.empty()
 	notificationsArea.append @renderNotificationItem item for item in json.notifications.data.list
-	
+
+	run = @run
+	ssid = @sid
+
+	notificationsArea.find('.notification-item').click ->
+		$this = $(this)
+		url = $this.data 'url'
+
+		run "curl -s #{url} -d \"\" --cookie sid=#{ssid}", (_, result) ->
+			result = JSON.parse result
+			if result.code == 0
+				$this.remove()
 
 style: """
   font-family: Helvetica Neue

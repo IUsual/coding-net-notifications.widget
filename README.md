@@ -9,7 +9,8 @@ Now the widget is tiny, useful but rough, join and help if you want!
 
 1. Pull down notifications of [Coding.net](https://coding.net), and display them in nice outlook on desktop.
 2. Customizable  position (top & right) and width.
-3. ~~Clickable link. According to document, the lastest Ubersicht owns nice anchor-link-click support, but not runs well in my El Capitan.~~
+3. support clickable anchor. Press `Command` and hold on, now if you click a link, you will get a page opened on your default web browser.
+4. Automic make notification as read. When a notification item clicked, a post request will be sent automicly to mark the notification you click as read.
 
 ## Setup
 
@@ -20,7 +21,7 @@ Just set sid in line 4 of index.coffee like below, and the widget will appear in
 
 ## Todo
 
-1. Support clickable anchor.
+1. ~~Support clickable anchor.~~
 2. The outlook of now widget references the style of [git-log](https://github.com/DigitallyBorn/Ubersicht-Git-Log) widget. I think git-log looks well, and, I copy down a part of style when I made this widget. Anyway, I'm trying to get a new outward appearance that is unique.
 
 ## About sid
